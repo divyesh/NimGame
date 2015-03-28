@@ -232,6 +232,7 @@
 				E8C794EF1AC38ADF0039C252 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
