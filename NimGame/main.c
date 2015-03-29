@@ -14,10 +14,10 @@
 void PrintSticks(int *l,int length);
 void ComputerMove(int *l,int length);
 void PlayerMove(int *ppiles,int length);
-static computercount=0;
-void CheclWin(int *ppiles,int length);
-
-void main(int argc, const char * argv[])
+static int computercount=0;
+int CheckWin(int *ppiles,int length);
+int Random(int max);
+int main(int argc, const char * argv[])
 {
     srand((unsigned)time(NULL));
     char ppiles[100];
@@ -25,7 +25,7 @@ void main(int argc, const char * argv[])
     printf("Enter your Pile :");
     scanf("%s",ppiles);
     
-    int length=strlen(ppiles);
+    int length=(unsigned)strlen(ppiles);
     //printf("length =%d\n",length);
     int piles[length];
     //free(piles);
@@ -42,7 +42,7 @@ void main(int argc, const char * argv[])
      //printf("\n %d \n",sizeof(*p));
    PrintSticks(p,length);
     
-    int win=1;
+    //int win=1;
    do {
        
         PlayerMove(p,length);
@@ -55,7 +55,7 @@ void main(int argc, const char * argv[])
         
    } while (1);
     
-    //return 0;
+    return 0;
 }
 
 void PlayerMove(int *ppiles,int length)
@@ -67,7 +67,7 @@ void PlayerMove(int *ppiles,int length)
     
     printf("From pile# %d , remove %d Stick \n",from,stick);
     
-    if (from<length) {
+    if (from<=length) {
         from=from>0?from-1:from;
         int sticksinpile=*(ppiles+from);
         if (stick>sticksinpile) {
@@ -109,7 +109,7 @@ void ComputerMove(int *l,int length)
         if (removeStick==0) {
             ComputerMove(l,length);
         }
-        printf("Selected pile# %d, Remove stick %d\n",selectPile, removeStick);
+        printf("Selected pile# %d, Remove stick %d\n",selectPile+1, removeStick);
         *(l+selectPile)=*(l+selectPile)-removeStick;
         //printf("After %d\n", *(l+selectPile));
         int win=CheckWin(l,length);
