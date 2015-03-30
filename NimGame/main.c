@@ -8,8 +8,9 @@
 
 #include <stdio.h>
 #include <time.h>
-#include "stdlib.h"
+#include <stdlib.h>
 #include<string.h>
+
 //#define PileLength 3
 void PrintSticks(int *l,int length);
 void ComputerMove(int *l,int length);
@@ -17,6 +18,8 @@ void PlayerMove(int *ppiles,int length);
 static int computercount=0;
 int CheckWin(int *ppiles,int length);
 int Random(int max);
+int pause_sec(int x);
+static int Win=0;
 int main(int argc, const char * argv[])
 {
     srand((unsigned)time(NULL));
@@ -39,10 +42,10 @@ int main(int argc, const char * argv[])
     int *p;
     
     p=piles;
-     //printf("\n %d \n",sizeof(*p));
+
    PrintSticks(p,length);
     
-    //int win=1;
+
    do {
        
         PlayerMove(p,length);
@@ -50,11 +53,11 @@ int main(int argc, const char * argv[])
         ComputerMove(p,length);
         PrintSticks(p,length);
        
-        
+       if(Win==1) break;
         //printf("\n%d\n",win);
         
    } while (1);
-    
+    printf("\nGame Over\n");
     return 0;
 }
 
@@ -76,11 +79,12 @@ void PlayerMove(int *ppiles,int length)
         }
         *(ppiles+from)=*(ppiles+from)-stick;
     }
-    int win=CheckWin(ppiles,length);
+    Win=CheckWin(ppiles,length);
     
-    if(win==1)
+    if(Win==1){
         printf("Hurrray You win.");
-  }
+    }
+}
 
 
 void PrintSticks(int *l,int length)
@@ -97,25 +101,33 @@ void PrintSticks(int *l,int length)
 
 void ComputerMove(int *l,int length)
 {
-    
-    int selectPile =Random(length);
-
-    if (*(l+selectPile)==0) {
-        ComputerMove(l,length);
-    }else
+    //Allow computer only when someone not Win/lost
+    if(Win==0)
     {
-        printf("Computer Turn :%d \n",(++computercount));
-        int removeStick=Random(*(l+selectPile));
-        if (removeStick==0) {
-            ComputerMove(l,length);
-        }
-        printf("Selected pile# %d, Remove stick %d\n",selectPile+1, removeStick);
-        *(l+selectPile)=*(l+selectPile)-removeStick;
-        //printf("After %d\n", *(l+selectPile));
-        int win=CheckWin(l,length);
+        int selectPile =Random(length);
         
-        if(win==1)
-            printf("Computer win, you lost.");
+        if (*(l+selectPile)==0) {
+           
+            ComputerMove(l,length);
+        }else
+        {
+           
+            int removeStick=Random(*(l+selectPile));
+            
+            if (removeStick==0) {
+                ++computercount;
+                ComputerMove(l,length);
+            }else {
+            printf("Computer Turn :%d \n",(++computercount));
+            printf("Selected pile# %d, Remove stick %d\n",selectPile+1, removeStick);
+            *(l+selectPile)=*(l+selectPile)-removeStick;
+            //printf("After %d\n", *(l+selectPile));
+            Win=CheckWin(l,length);
+            
+            if(Win==1)
+                printf("Computer win, you lost.");
+            }
+        }
     }
 }
 
@@ -130,6 +142,7 @@ int CheckWin(int *l,int lenght)
             ++zerostickcount;
         }
     }
+    
     if(zerostickcount==lenght)
         return 1;
     return 0;
@@ -137,10 +150,25 @@ int CheckWin(int *l,int lenght)
 
 int Random(int max)
     {
-        srand((unsigned)time(NULL));
+       /* Seed is usually taken from the current time, which are the seconds, as in time(NULL), so if you always set the seed before taking the random number, you will get the same number as long as you call the srand/rand combo multiple times in the same second.
+            
+            To avoid this problem, srand is set only once per application, because it is doubtful that two of the application instances will be run in the same second, so each instance will then have a different sequence of random numbers.*/
+        //srand((unsigned)time(NULL));
+         pause_sec(1);
         int r =rand()%max;
-        //printf("\nRandom# %d\n",r);
-        //if(r==0) return Random(max);
+        
         return r;
     }
-
+int pause_sec(int x)
+{
+    /* In the program random number is generating corretly sometime, but some time crash.
+     As we know random number are generated from time and our programme is very fast that it can loop more than 100,000
+     times in mili second, so it will crash.
+     We need to puse for a second and then generate, so we can get next available number
+     */
+    
+    for (int t=0; t>1000*x; t++) {
+        //continue;
+    }
+    return(x);
+}
