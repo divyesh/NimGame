@@ -12,13 +12,14 @@
 #include<string.h>
 
 //#define PileLength 3
-void PrintSticks(int *l,int length);
-void ComputerMove(int *l,int length);
-void PlayerMove(int *ppiles,int length);
-static int computercount=0;
-int CheckWin(int *ppiles,int length);
+void PrintSticks(int *p);
+void ComputerMove(int *p);
+void PlayerMove(int *p);
+int CheckWin(int *p);
 int Random(int max);
 int pause_sec(int x);
+int static arrayLength=0;
+static int computercount=0;
 static int Win=0;
 int main(int argc, const char * argv[])
 {
@@ -28,12 +29,12 @@ int main(int argc, const char * argv[])
     printf("Enter your Pile :");
     scanf("%s",ppiles);
     
-    int length=(unsigned)strlen(ppiles);
+    arrayLength=(unsigned)strlen(ppiles);
     //printf("length =%d\n",length);
-    int piles[length];
-    //free(piles);
+    int piles[arrayLength];
+   
     int n=0;
-    for (int k=0; k<length; k++) {
+    for (int k=0; k<arrayLength; k++) {
         n=ppiles[k]-'0';
         piles[k]=n;
     }
@@ -43,15 +44,15 @@ int main(int argc, const char * argv[])
     
     p=piles;
 
-   PrintSticks(p,length);
+    PrintSticks(p);
     
 
    do {
        
-        PlayerMove(p,length);
-        PrintSticks(p,length);
-        ComputerMove(p,length);
-        PrintSticks(p,length);
+        PlayerMove(p);
+        PrintSticks(p);
+        ComputerMove(p);
+        PrintSticks(p);
        
        if(Win==1) break;
         //printf("\n%d\n",win);
@@ -61,7 +62,7 @@ int main(int argc, const char * argv[])
     return 0;
 }
 
-void PlayerMove(int *ppiles,int length)
+void PlayerMove(int *p)
 {
     int from=0;
     int stick=0;
@@ -70,16 +71,19 @@ void PlayerMove(int *ppiles,int length)
     
     printf("From pile# %d , remove %d Stick \n",from,stick);
     
-    if (from<=length) {
-        from=from>0?from-1:from;
-        int sticksinpile=*(ppiles+from);
+    if (from<=arrayLength && from>0)
+    {
+        //array starts from index 0
+        from=from-1;
+        // Get value at pointer address * (pointer +index)
+        int sticksinpile=*(p+from);
         if (stick>sticksinpile) {
             printf("There are only %d sticks, you want %d\n",sticksinpile,stick);
-            PlayerMove(ppiles,length);
+            PlayerMove(p);
         }
-        *(ppiles+from)=*(ppiles+from)-stick;
+        *(p+from)=*(p+from)-stick;
     }
-    Win=CheckWin(ppiles,length);
+    Win=CheckWin(p);
     
     if(Win==1){
         printf("Hurrray You win.");
@@ -87,10 +91,10 @@ void PlayerMove(int *ppiles,int length)
 }
 
 
-void PrintSticks(int *l,int length)
+void PrintSticks(int *l)
 {
     
-    for (int i=0; i<length; i++) {
+    for (int i=0; i<arrayLength; i++) {
         for (int j=*(l+i); j>0; j--) {
             printf("I");
         }
@@ -99,16 +103,16 @@ void PrintSticks(int *l,int length)
     printf("\n");
 }
 
-void ComputerMove(int *l,int length)
+void ComputerMove(int *l)
 {
     //Allow computer only when someone not Win/lost
     if(Win==0)
     {
-        int selectPile =Random(length);
+        int selectPile =Random(arrayLength);
         
         if (*(l+selectPile)==0) {
            
-            ComputerMove(l,length);
+            ComputerMove(l);
         }else
         {
            
@@ -116,13 +120,13 @@ void ComputerMove(int *l,int length)
             
             if (removeStick==0) {
                 ++computercount;
-                ComputerMove(l,length);
+                ComputerMove(l);
             }else {
             printf("Computer Turn :%d \n",(++computercount));
             printf("Selected pile# %d, Remove stick %d\n",selectPile+1, removeStick);
             *(l+selectPile)=*(l+selectPile)-removeStick;
             //printf("After %d\n", *(l+selectPile));
-            Win=CheckWin(l,length);
+            Win=CheckWin(l);
             
             if(Win==1)
                 printf("Computer win, you lost.");
@@ -131,11 +135,11 @@ void ComputerMove(int *l,int length)
     }
 }
 
-int CheckWin(int *l,int lenght)
+int CheckWin(int *l)
 {
     int zerostickcount=0;
     //printf("\nCheck win\n");
-    for (int i=0; i<3; i++) {
+    for (int i=0; i<arrayLength; i++) {
         //printf("%d",*(l+i));
         if(*(l+i)==0)
         {
@@ -143,7 +147,7 @@ int CheckWin(int *l,int lenght)
         }
     }
     
-    if(zerostickcount==lenght)
+    if(zerostickcount==arrayLength)
         return 1;
     return 0;
 }
@@ -154,7 +158,7 @@ int Random(int max)
             
             To avoid this problem, srand is set only once per application, because it is doubtful that two of the application instances will be run in the same second, so each instance will then have a different sequence of random numbers.*/
         //srand((unsigned)time(NULL));
-         pause_sec(1);
+        pause_sec(2);
         int r =rand()%max;
         
         return r;
@@ -168,7 +172,7 @@ int pause_sec(int x)
      */
     
     for (int t=0; t>1000*x; t++) {
-        //continue;
+        continue;
     }
     return(x);
 }
