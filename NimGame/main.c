@@ -108,29 +108,32 @@ void ComputerMove(int *l)
     //Allow computer only when someone not Win/lost
     if(Win==0)
     {
+       
+        
         int selectPile =Random(arrayLength);
         
-        if (*(l+selectPile)==0) {
-           
-            ComputerMove(l);
-        }else
+        if (*(l+selectPile)!=0)
         {
-           
-            int removeStick=Random(*(l+selectPile));
+            
+            int removeStick=*(l+selectPile)==1?1: Random(*(l+selectPile));
             
             if (removeStick==0) {
                 ++computercount;
                 ComputerMove(l);
             }else {
-            printf("Computer Turn :%d \n",(++computercount));
-            printf("Selected pile# %d, Remove stick %d\n",selectPile+1, removeStick);
-            *(l+selectPile)=*(l+selectPile)-removeStick;
-            //printf("After %d\n", *(l+selectPile));
-            Win=CheckWin(l);
-            
-            if(Win==1)
-                printf("Computer win, you lost.");
+                printf("Computer Turn :%d \n",(++computercount));
+                printf("Selected pile# %d, Remove stick %d\n",selectPile+1, removeStick);
+                *(l+selectPile)=*(l+selectPile)-removeStick;
+                //printf("After %d\n", *(l+selectPile));
+                Win=CheckWin(l);
+                
+                if(Win==1)
+                    printf("Computer win, you lost.");
             }
+        }else
+        {
+           ComputerMove(l);
+            
         }
     }
 }
@@ -156,7 +159,7 @@ int Random(int max)
     {
        /* Seed is usually taken from the current time, which are the seconds, as in time(NULL), so if you always set the seed before taking the random number, you will get the same number as long as you call the srand/rand combo multiple times in the same second.
             
-            To avoid this problem, srand is set only once per application, because it is doubtful that two of the application instances will be run in the same second, so each instance will then have a different sequence of random numbers.*/
+        To avoid this problem, srand is set only once per application, because it is doubtful that two of the application instances will be run in the same second, so each instance will then have a different sequence of random numbers.*/
         //srand((unsigned)time(NULL));
         pause_sec(2);
         int r =rand()%max;
