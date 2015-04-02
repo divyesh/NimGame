@@ -21,7 +21,7 @@ int pause_sec(int x);
 int static arrayLength=0;
 static int computercount=0;
 static int Win=0;
-int main(int argc, const char * argv[])
+int main2(int argc, const char * argv[])
 {
     srand((unsigned)time(NULL));
     char ppiles[100];
@@ -133,7 +133,6 @@ void ComputerMove(int *l)
         }else
         {
             ComputerMove(l);
-            
         }
     }
 }

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E8C794EA1AC38ADF0039C252 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = E8C794E91AC38ADF0039C252 /* main.c */; };
+		E8A7900D1ACCC23C009AB0C8 /* Nim2.c in Sources */ = {isa = PBXBuildFile; fileRef = E8A7900B1ACCC23C009AB0C8 /* Nim2.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,8 +23,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E8A790091ACCC1FA009AB0C8 /* NimGame.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = NimGame.c; sourceTree = SOURCE_ROOT; };
+		E8A7900B1ACCC23C009AB0C8 /* Nim2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Nim2.c; sourceTree = SOURCE_ROOT; };
 		E8C794E61AC38ADF0039C252 /* NimGame */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NimGame; sourceTree = BUILT_PRODUCTS_DIR; };
-		E8C794E91AC38ADF0039C252 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +58,8 @@
 		E8C794E81AC38ADF0039C252 /* NimGame */ = {
 			isa = PBXGroup;
 			children = (
-				E8C794E91AC38ADF0039C252 /* main.c */,
+				E8A790091ACCC1FA009AB0C8 /* NimGame.c */,
+				E8A7900B1ACCC23C009AB0C8 /* Nim2.c */,
 			);
 			path = NimGame;
 			sourceTree = "<group>";
@@ -118,7 +120,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E8C794EA1AC38ADF0039C252 /* main.c in Sources */,
+				E8A7900D1ACCC23C009AB0C8 /* Nim2.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
